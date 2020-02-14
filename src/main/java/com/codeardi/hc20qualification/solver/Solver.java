@@ -1,4 +1,4 @@
-package com.codeardi.basefileprocessor.solver;
+package com.codeardi.hc20qualification.solver;
 
 import java.util.List;
 

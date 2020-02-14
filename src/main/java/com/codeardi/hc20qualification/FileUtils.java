@@ -1,4 +1,4 @@
-package com.codeardi.basefileprocessor;
+package com.codeardi.hc20qualification;
 
 import java.io.FileWriter;
 import java.io.IOException;

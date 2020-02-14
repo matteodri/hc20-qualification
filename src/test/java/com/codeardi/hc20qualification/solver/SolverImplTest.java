@@ -1,6 +1,6 @@
-package com.codeardi.basefileprocessor.solver;
+package com.codeardi.hc20qualification.solver;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for {@link SolverImpl}.
+ */
 class SolverImplTest {
 
     private SolverImpl unit;

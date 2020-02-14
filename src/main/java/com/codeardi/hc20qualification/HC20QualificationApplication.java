@@ -1,4 +1,4 @@
-package com.codeardi.basefileprocessor;
+package com.codeardi.hc20qualification;
 
 import java.util.List;
 
@@ -7,19 +7,19 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.codeardi.basefileprocessor.solver.Solver;
-import com.codeardi.basefileprocessor.solver.SolverImpl;
+import com.codeardi.hc20qualification.solver.Solver;
+import com.codeardi.hc20qualification.solver.SolverImpl;
 
 /**
  * Spring Boot application entrypoint.
  */
 @SpringBootApplication
-public class BaseFileProcessorApplication {
+public class HC20QualificationApplication {
 
-    private static final Logger logger = LogManager.getLogger(BaseFileProcessorApplication.class);
+    private static final Logger logger = LogManager.getLogger(HC20QualificationApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(BaseFileProcessorApplication.class, args);
+        SpringApplication.run(HC20QualificationApplication.class, args);
 
         if (args.length == 2 && !args[0].isBlank() && !args[1].isBlank()) {
             long start = System.currentTimeMillis();

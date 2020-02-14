@@ -9,10 +9,10 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.codeardi</groupId>
-  <artifactId>base-file-processor</artifactId>
+  <artifactId>hc20-qualification</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>base-file-processor</name>
-  <description>Base project for processing a text file and returning an output file</description>
+  <name>hc20-qualification</name>
+  <description>Solution to the Google Hash Code 2020 qualification round</description>
 
   <properties>
     <java.version>11</java.version>
@@ -49,10 +49,10 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>src/assemble/base-file-processor.xml</descriptor>
+            <descriptor>src/assemble/hc20-qualification.xml</descriptor>
           </descriptors>
           <appendAssemblyId>false</appendAssemblyId>
-          <finalName>base-file-processor</finalName>
+          <finalName>hc20-qualification</finalName>
         </configuration>
         <executions>
           <execution>

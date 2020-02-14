@@ -17,5 +17,5 @@ jobs:
       run: mvn -B package
     - uses: actions/upload-artifact@v1
       with:
-        name: base-file-processor
-        path: target/base-file-processor.zip
+        name: hc20-qualification
+        path: target/hc20-qualification.zip
