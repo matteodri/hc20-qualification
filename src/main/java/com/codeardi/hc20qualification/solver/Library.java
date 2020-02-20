@@ -45,6 +45,10 @@ public class Library {
         return id;
     }
 
+    public int getSignUpDays() {
+        return signUpDays;
+    }
+
     public List<Book> getScannedBooks() {
         return scannedBooks;
     }

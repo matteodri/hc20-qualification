@@ -128,7 +128,17 @@ public class SolverImpl implements Solver {
      */
     private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
         List<Library> results = new ArrayList<>(libraries);
-        results.sort(Comparator.comparing(lib -> lib.getMaximumScannedBooksScore(numberOfDays), Comparator.reverseOrder()));
+        List<Library> orederedLibraries = new ArrayList<>(libraries);
+        orederedLibraries.sort(Comparator.comparing(lib -> lib.getMaximumScannedBooksScore(numberOfDays), Comparator.reverseOrder()));
+
+        int totalSignUpDays = 0;
+        for (int i = 0; i < orederedLibraries.size(); i++) {
+            totalSignUpDays += results.get(i).getSignUpDays();
+            results.add(orederedLibraries.get(i));
+            if (totalSignUpDays > numberOfDays) {
+                break;
+            }
+        }
         return results;
     }
 
