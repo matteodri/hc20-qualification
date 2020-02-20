@@ -132,5 +132,4 @@ public class SolverImpl implements Solver {
         return results;
     }
 
-    private static final
 }
