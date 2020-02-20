@@ -11,6 +11,7 @@ public class Library {
     private int id;
     private int signUpDays;
     private int booksPerDay;
+    private int maximumScannedBooksScore;
     private List<Book> books;
     private Set<Book> bookPool;
 
@@ -22,6 +23,7 @@ public class Library {
         this.books.sort(Comparator.naturalOrder());
 
         this.bookPool = bookPool;
+        this.maximumScannedBooksScore = getMaximumScannedBooksScore(signUpDays);
     }
 
     private boolean signingUp;
@@ -59,7 +61,11 @@ public class Library {
             .sum();
     }
 
-    public int getMaximumScannedBooksScore(int days) {
+    public int getMaximumScannedBooksScore() {
+        return maximumScannedBooksScore;
+    }
+
+    private int getMaximumScannedBooksScore(int days) {
         int scanningDays = days - signUpDays;
         int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
 
