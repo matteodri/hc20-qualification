@@ -1,7 +1,9 @@
 package com.codeardi.hc20qualification.solver;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,9 +30,29 @@ public class SolverImpl implements Solver {
         int days = Integer.parseInt(firstLine[2]);
 
         String[] scores = inputLines.get(1).split(" ");
+        Set<Book> bookPool = new HashSet<>();
 
-        for(int i=0; i < librariesNumber; i++){
+        for (int c = 0; c < booksNumber; c++) {
+            bookPool.add(new Book(c, Integer.parseInt(scores[c])));
+        }
+        ArrayList<Library> libraries = new ArrayList<Library>();
 
+        for (int i = 0; i < librariesNumber; i++) {
+            int row = 2 + i * 2;
+            String[] libraryLine = inputLines.get(row).split(" ");
+            int booksInLibrary = Integer.parseInt(libraryLine[0]);
+            int signupDays = Integer.parseInt(libraryLine[1]);
+            int booksPerDay = Integer.parseInt(libraryLine[2]);
+
+            String[] libraryBooks = inputLines.get(row + 1).split(" ");
+            List<Book> books = new ArrayList<>();
+            for (int j = 0; j < booksInLibrary; j++) {
+                int scoreIdx = Integer.parseInt(libraryBooks[j]);
+                Book book = new Book(Integer.parseInt(libraryBooks[j]), Integer.parseInt(scores[scoreIdx]));
+                books.add(book);
+            }
+            Library library = new Library(i, signupDays, booksPerDay, books, bookPool);
+            libraries.add(library);
         }
 
 
@@ -46,7 +68,7 @@ public class SolverImpl implements Solver {
      *
      * @return list of libraries picked. then each library will have the list of books selected
      */
-    private List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, List<Book> books, List<Library> libraries){
+    protected List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
         List<Library> result = new ArrayList<>();
 
         List<Library> librariesToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
@@ -72,9 +94,10 @@ public class SolverImpl implements Solver {
 
     /**
      * This method can be just picking libraries in order of input or be smarter to optimise score picking libraries with most valueable books and less sign up time
+     *
      * @return libraries in order to be processed
      */
-    private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, List<Book> books, List<Library> libraries) {
+    private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
         List<Library> result = new ArrayList<>();
 
         // pick by input order
@@ -82,7 +105,6 @@ public class SolverImpl implements Solver {
 
 
         // pick by score of books in each library
-
 
 
         // pick maximising value (weight of books)/(sign up days)
