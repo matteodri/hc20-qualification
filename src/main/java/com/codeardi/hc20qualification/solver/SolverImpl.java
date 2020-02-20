@@ -1,6 +1,7 @@
 package com.codeardi.hc20qualification.solver;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -126,18 +127,8 @@ public class SolverImpl implements Solver {
      * @return libraries in order to be processed
      */
     private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
-        List<Library> result = new ArrayList<>();
-
-        // pick by input order
-        result = new ArrayList<>(libraries);
-
-
-        // pick by score of books in each library
-
-
-        // pick maximising value (weight of books)/(sign up days)
-
-
-        return result;
+        List<Library> results = new ArrayList<>(libraries);
+        results.sort(Comparator.comparing(Library::getScannedBooksScore).reversed());
+        return results;
     }
 }
