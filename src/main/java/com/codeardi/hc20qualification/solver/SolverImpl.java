@@ -103,13 +103,16 @@ public class SolverImpl implements Solver {
                 }
             }
         }
+        int totalScore = 0;
         for (int i = 0; i < librariesToProcess.size(); i++) {
             Library library = librariesToProcess.get(i);
             if (library.getScannedBooks().size() > 0) {
                 result.add(library);
+                totalScore += library.getScannedBooksScore();
             }
         }
 
+        logger.info("Total score of scanned books: {}", totalScore);
         return result;
     }
 
