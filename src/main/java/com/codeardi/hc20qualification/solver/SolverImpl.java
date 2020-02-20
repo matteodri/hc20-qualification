@@ -108,29 +108,22 @@ public class SolverImpl implements Solver {
             }
             librariesScanningBooks.removeAll(librariesTotallyUsed);
 
-            libraryInSignUp.dayElapsed();
+            if (libraryInSignUp != null){
 
-            if (!libraryInSignUp.isSigningUp()) {
+                libraryInSignUp.dayElapsed();
+            }
+
+            if (libraryInSignUp != null && !libraryInSignUp.isSigningUp()) {
                 // finished sign up process
                 // add library to libraries in scanning
                 librariesScanningBooks.add(libraryInSignUp);
 
-                // identify next library to sign upi
-                libraryInSignUp = librariesToProcess.get(libraryInSignUpIndex+1);
-                libraryInSignUpIndex++;
-            }
-
-            for (int i = 0; i < librariesToProcess.size(); i++) {
-                Library library = librariesToProcess.get(i);
-                boolean signingUp = library.isSigningUp();
-                if (!signingUpLibrary && !signingUp) {
-                    library.startSigningUp();
-                    signingUpLibrary = true;
-                }
-                library.dayElapsed();
-                if (signingUp && !library.isSigningUp()) {
-                    library.stopSigningUp();
-                    signingUpLibrary = false;
+                if (!(libraryInSignUpIndex > librariesToProcess.size()-2)){
+                    // identify next library to sign upi
+                    libraryInSignUp = librariesToProcess.get(libraryInSignUpIndex+1);
+                    libraryInSignUpIndex++;
+                } else {
+                    libraryInSignUp = null;
                 }
             }
 
