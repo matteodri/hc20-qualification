@@ -32,21 +32,25 @@ public class Library {
         this.signingUp = true;
     }
 
+    public void stopSigningUp() {
+        this.signingUp = false;
+    }
+
     public boolean isSigningUp() {
         return signingUp;
     }
 
     public void dayElapsed() {
-        if (remainingSignUpDays > 0) {
+        if (signingUp && remainingSignUpDays > 0) {
             remainingSignUpDays--;
-        } else {
+        } else if (remainingSignUpDays <= 0) {
             scannedBooks.addAll(booksInScanning);
             booksInScanning.clear();
             for (int i = booksInScanning.size(); i < booksPerDay; i++) {
                 scanBook();
             }
-
         }
+
     }
 
     private void scanBook() {

@@ -50,7 +50,22 @@ public class SolverImpl implements Solver {
         List<Library> result = new ArrayList<>();
 
         List<Library> librariesToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
-
+        boolean signingUpLibrary = false;
+        for(int day = 0; day < numberOfDays; day++) {
+            for (int i = 0; i < librariesToProcess.size(); i++) {
+                Library library = librariesToProcess.get(i);
+                boolean signingUp = library.isSigningUp();
+                if (!signingUpLibrary && !signingUp) {
+                    library.startSigningUp();
+                    signingUpLibrary = true;
+                }
+                library.dayElapsed();
+                if (signingUp && !library.isSigningUp()) {
+                    library.stopSigningUp();
+                    signingUpLibrary = false;
+                }
+            }
+        }
 
         return result;
     }
