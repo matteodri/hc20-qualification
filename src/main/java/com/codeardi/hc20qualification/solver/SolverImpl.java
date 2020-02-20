@@ -21,4 +21,18 @@ public class SolverImpl implements Solver {
         List<String> outputLines = new ArrayList<>();
         return outputLines;
     }
+
+
+    /**
+     *
+     * @return list of libraries picked. then each library will have the list of books selected
+     */
+    private List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, List<Book> books, List<Library> libraries){
+        List<Library> result = new ArrayList<>();
+
+
+
+
+        return result;
+    }
 }
