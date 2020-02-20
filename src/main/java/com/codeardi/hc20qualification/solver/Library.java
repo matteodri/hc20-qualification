@@ -40,6 +40,14 @@ public class Library {
         return signingUp;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Set<Book> getScannedBooks() {
+        return scannedBooks;
+    }
+
     public void dayElapsed() {
         if (signingUp && remainingSignUpDays > 0) {
             remainingSignUpDays--;
