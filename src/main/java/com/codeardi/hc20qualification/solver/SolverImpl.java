@@ -128,7 +128,9 @@ public class SolverImpl implements Solver {
      */
     private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
         List<Library> results = new ArrayList<>(libraries);
-        results.sort(Comparator.comparing(Library::getScannedBooksScore).reversed());
+        results.sort(Comparator.comparing(lib -> lib.getMaximumScannedBooksScore(numberOfDays), Comparator.reverseOrder()));
         return results;
     }
+
+    private static final
 }
