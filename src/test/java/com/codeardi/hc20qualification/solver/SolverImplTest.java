@@ -18,12 +18,18 @@ class SolverImplTest {
 
     private SolverImpl unit;
 
-    @Disabled
     @Test
     @DisplayName("Output list not null")
     void getSolution() {
         unit = new SolverImpl();
         List<String> input = new ArrayList<>();
+
+        input.add("6 2 7");
+        input.add("1 2 3 6 5 4");
+        input.add("5 2 2");
+        input.add("0 1 2 3 4");
+        input.add("4 3 1");
+        input.add("3 2 5 0");
 
         List<String> output = unit.getSolution(input);
 
