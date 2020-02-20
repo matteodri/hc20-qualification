@@ -102,6 +102,10 @@ public class SolverImpl implements Solver {
                     signingUpLibrary = false;
                 }
             }
+
+            if (day % 100 == 0){
+                logger.info("Days passed {} / {}", day, numberOfDays);
+            }
         }
         int totalScore = 0;
         for (int i = 0; i < librariesToProcess.size(); i++) {
