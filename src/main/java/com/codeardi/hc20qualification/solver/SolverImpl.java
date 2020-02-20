@@ -90,7 +90,36 @@ public class SolverImpl implements Solver {
         List<Library> librariesToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
         logger.info("Finished identification of libraries");
         boolean signingUpLibrary = false;
+
+        Library libraryInSignUp = librariesToProcess.get(0);
+        Set<Library> librariesScanningBooks = new HashSet<>();
+
+        int libraryInSignUpIndex = 0;
         for(int day = 0; day < numberOfDays; day++) {
+
+            Set<Library> librariesTotallyUsed = new HashSet<>();
+
+            for (Library libraryScanning : librariesScanningBooks){
+                libraryScanning.dayElapsed();
+                // when finished scanning remove from librariesScanningBooks
+                if (libraryScanning.getScannedBooks().size() == libraryScanning.getBooks().size()){
+                    librariesTotallyUsed.add(libraryScanning);
+                }
+            }
+            librariesScanningBooks.removeAll(librariesTotallyUsed);
+
+            libraryInSignUp.dayElapsed();
+
+            if (!libraryInSignUp.isSigningUp()) {
+                // finished sign up process
+                // add library to libraries in scanning
+                librariesScanningBooks.add(libraryInSignUp);
+
+                // identify next library to sign upi
+                libraryInSignUp = librariesToProcess.get(libraryInSignUpIndex+1);
+                libraryInSignUpIndex++;
+            }
+
             for (int i = 0; i < librariesToProcess.size(); i++) {
                 Library library = librariesToProcess.get(i);
                 boolean signingUp = library.isSigningUp();

@@ -12,9 +12,10 @@ public class Library {
     private int signUpDays;
     private int booksPerDay;
     private int maximumScannedBooksScore;
-    private List<Book> books;
-    private Set<Book> bookPool;
 
+    private List<Book> books;
+
+    private Set<Book> bookPool;
     public Library(int id, int signUpDays, int booksPerDay, List<Book> books, Set<Book> bookPool) {
         this.id = id;
         this.signUpDays = signUpDays;
@@ -27,12 +28,16 @@ public class Library {
     }
 
     private boolean signingUp;
+
     private int remainingSignUpDays = signUpDays;
     private Set<Book> booksInScanning = new HashSet<>();
     private List<Book> scannedBooks = new ArrayList<>();
-
     public void startSigningUp() {
         this.signingUp = true;
+    }
+
+    public List<Book> getBooks() {
+        return books;
     }
 
     public void stopSigningUp() {
