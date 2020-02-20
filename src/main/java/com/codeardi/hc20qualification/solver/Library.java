@@ -48,6 +48,10 @@ public class Library {
         return scannedBooks;
     }
 
+    public int getScannedBooksScore() {
+        return scannedBooks.stream().mapToInt(Book::getScore).sum();
+    }
+
     public void dayElapsed() {
         if (signingUp && remainingSignUpDays > 0) {
             remainingSignUpDays--;
