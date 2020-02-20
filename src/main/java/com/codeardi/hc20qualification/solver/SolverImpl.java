@@ -88,6 +88,7 @@ public class SolverImpl implements Solver {
         List<Library> result = new ArrayList<>();
 
         List<Library> librariesToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
+        logger.info("Finished identification of libraries");
         boolean signingUpLibrary = false;
         for(int day = 0; day < numberOfDays; day++) {
             for (int i = 0; i < librariesToProcess.size(); i++) {
