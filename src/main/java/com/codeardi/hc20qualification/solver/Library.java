@@ -49,7 +49,20 @@ public class Library {
     }
 
     public int getScannedBooksScore() {
-        return scannedBooks.stream().mapToInt(Book::getScore).sum();
+        return scannedBooks.stream()
+            .mapToInt(Book::getScore)
+            .sum();
+    }
+
+    public int getMaximumScannedBooksScore(int days) {
+        int scanningDays = days - signUpDays;
+        int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
+
+        int maximumScore = 0;
+        for(int i = 0; i < manageableBooks; i++) {
+            maximumScore += books.get(i).getScore();
+        }
+        return maximumScore;
     }
 
     public void dayElapsed() {
