@@ -66,7 +66,7 @@ public class SolverImpl implements Solver {
         resultingRows.add(String.format("%d", totalLibraries));
 
         for(int i = 0; i < resultingLibraries.size(); i++) {
-            Library library = resultingLibraries.get(0);
+            Library library = resultingLibraries.get(i);
             resultingRows.add(String.format("%d %d", library.getId(), library.getScannedBooks().size()));
 
             String booksString = library.getScannedBooks().stream().map(Book::getId).map(id -> id.toString() + " ")
