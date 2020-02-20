@@ -23,9 +23,18 @@ public class Library {
         this.bookPool = bookPool;
     }
 
+    private boolean signingUp;
     private int remainingSignUpDays = signUpDays;
     private Set<Book> booksInScanning = new HashSet<>();
     private Set<Book> scannedBooks = new HashSet<>();
+
+    public void startSigningUp() {
+        this.signingUp = true;
+    }
+
+    public boolean isSigningUp() {
+        return signingUp;
+    }
 
     public void dayElapsed() {
         if (remainingSignUpDays > 0) {
