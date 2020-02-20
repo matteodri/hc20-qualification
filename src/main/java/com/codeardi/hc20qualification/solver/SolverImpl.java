@@ -18,6 +18,22 @@ public class SolverImpl implements Solver {
     @Override
     public List<String> getSolution(List<String> inputLines) {
 
+        if (inputLines.size() < 4) {
+            throw new IllegalArgumentException("Expected 4 lines in input file. Cannot calculate a solution.");
+        }
+        String[] firstLine = inputLines.get(0).split(" ");
+
+        int booksNumber = Integer.parseInt(firstLine[0]);
+        int librariesNumber = Integer.parseInt(firstLine[1]);
+        int days = Integer.parseInt(firstLine[2]);
+
+        String[] scores = inputLines.get(1).split(" ");
+
+        for(int i=0; i < librariesNumber; i++){
+
+        }
+
+
         // TODO use inputLines to calculate solution
 
         List<String> outputLines = new ArrayList<>();
