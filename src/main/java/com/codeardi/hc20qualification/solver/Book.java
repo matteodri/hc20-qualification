@@ -6,6 +6,8 @@ package com.codeardi.hc20qualification.solver;
 public class Book implements Comparable<Book> {
 
     private int id;
+    private int score;
+
 
     public Book(int id) {
         this.id = id;
@@ -13,6 +15,14 @@ public class Book implements Comparable<Book> {
 
     public int getId() {
         return id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override
@@ -34,15 +44,9 @@ public class Book implements Comparable<Book> {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-            "id=" + id +
-            '}';
-    }
 
     @Override
     public int compareTo(Book book) {
-        return id - book.getId();
+        return score - book.getScore();
     }
 }
