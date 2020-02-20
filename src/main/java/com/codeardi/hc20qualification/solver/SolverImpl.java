@@ -45,21 +45,36 @@ public class SolverImpl implements Solver {
             int booksPerDay = Integer.parseInt(libraryLine[2]);
 
             String[] libraryBooks = inputLines.get(row + 1).split(" ");
-            List<Book> books = new ArrayList<>();
+            List<Book> booksLibrary = new ArrayList<>();
             for (int j = 0; j < booksInLibrary; j++) {
                 int scoreIdx = Integer.parseInt(libraryBooks[j]);
                 Book book = new Book(Integer.parseInt(libraryBooks[j]), Integer.parseInt(scores[scoreIdx]));
-                books.add(book);
+                booksLibrary.add(book);
             }
-            Library library = new Library(i, signupDays, booksPerDay, books, bookPool);
+            Library library = new Library(i, signupDays, booksPerDay, booksLibrary, bookPool);
             libraries.add(library);
         }
 
 
-        // TODO use inputLines to calculate solution
+        List<Library> resultingLibraries = solve(booksNumber, librariesNumber, days, bookPool, libraries);
+        return createOutput(resultingLibraries);
+    }
 
-        List<String> outputLines = new ArrayList<>();
-        return outputLines;
+    private List<String> createOutput(List<Library> resultingLibraries) {
+        List<String> resultingRows = new ArrayList<>();
+        int totalLibraries = resultingLibraries.size();
+        resultingRows.add(String.format("%d", totalLibraries));
+
+        for(int i = 0; i < resultingLibraries.size(); i++) {
+            Library library = resultingLibraries.get(0);
+            resultingRows.add(String.format("%d %d", library.getId(), library.getScannedBooks().size()));
+
+            String booksString = library.getScannedBooks().stream().map(Book::getId).map(id -> id.toString() + " ")
+                .reduce("", String::concat);
+            resultingRows.add(booksString);
+        }
+
+        return resultingRows;
     }
 
 
@@ -86,6 +101,12 @@ public class SolverImpl implements Solver {
                     library.stopSigningUp();
                     signingUpLibrary = false;
                 }
+            }
+        }
+        for (int i = 0; i < librariesToProcess.size(); i++) {
+            Library library = librariesToProcess.get(i);
+            if (library.getScannedBooks().size() > 0) {
+                result.add(library);
             }
         }
 

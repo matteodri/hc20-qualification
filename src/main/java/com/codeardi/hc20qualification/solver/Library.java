@@ -1,5 +1,6 @@
 package com.codeardi.hc20qualification.solver;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Library {
     private boolean signingUp;
     private int remainingSignUpDays = signUpDays;
     private Set<Book> booksInScanning = new HashSet<>();
-    private Set<Book> scannedBooks = new HashSet<>();
+    private List<Book> scannedBooks = new ArrayList<>();
 
     public void startSigningUp() {
         this.signingUp = true;
@@ -44,7 +45,7 @@ public class Library {
         return id;
     }
 
-    public Set<Book> getScannedBooks() {
+    public List<Book> getScannedBooks() {
         return scannedBooks;
     }
 
