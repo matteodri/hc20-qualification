@@ -8,9 +8,9 @@ public class Book implements Comparable<Book> {
     private int id;
     private int score;
 
-
-    public Book(int id) {
+    public Book(int id, int score) {
         this.id = id;
+        this.score = score;
     }
 
     public int getId() {
@@ -19,10 +19,6 @@ public class Book implements Comparable<Book> {
 
     public int getScore() {
         return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     @Override
@@ -35,7 +31,6 @@ public class Book implements Comparable<Book> {
         }
 
         Book book = (Book) o;
-
         return id == book.id;
     }
 
