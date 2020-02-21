@@ -91,18 +91,18 @@ public class SolverImpl implements Solver {
         logger.info("Finished identification of libraries");
 
         int totalSignUpDays = 0;
-        for (int i = 0; i < librariesToProcess.size(); i++) {
-            Library library = librariesToProcess.get(i);
+        for (Library library : librariesToProcess) {
             library.scanTotalBooks(numberOfDays, totalSignUpDays);
-            totalSignUpDays += library.getSignUpDays();
-            result.add(library);
+            if (library.getScannedBooks().size() > 0){
+                totalSignUpDays += library.getSignUpDays();
+                result.add(library);
+            }
         }
 
         logger.info("Finished days process");
 
         int totalScore = 0;
-        for (int i = 0; i < result.size(); i++) {
-            Library library = result.get(i);
+        for (Library library : result) {
             if (library.getScannedBooks().size() > 0) {
                 totalScore += library.getScannedBooksScore();
             }

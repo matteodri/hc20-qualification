@@ -42,6 +42,6 @@ public class Book implements Comparable<Book> {
 
     @Override
     public int compareTo(Book book) {
-        return score - book.getScore();
+        return book.getScore() - score;
     }
 }
