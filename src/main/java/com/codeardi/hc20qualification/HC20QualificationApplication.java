@@ -34,6 +34,13 @@ public class HC20QualificationApplication {
 
     }
 
+//    public static void main(String[] args) {
+//        Solver solver =  new SolverImpl();
+//
+//        List<String> inputLines = List.of("6 2 7", "1 2 3 6 5 4", "5 2 2", "0 1 2 3 4", "4 3 1", "0 2 3 5");
+//        List<String> outputLines = solver.getSolution(inputLines);
+//    }
+
     private static void process(String inputFilePath, String outputFilePath) {
         List<String> inputLines;
         try {
@@ -49,6 +56,7 @@ public class HC20QualificationApplication {
 
         Solver solver =  new SolverImpl();
 
+        List.of("6 2 7", "1 2 3 6 5 4", "5 2 2", "0 1 2 3 4", "4 3 1", "0 2 3 5");
         List<String> outputLines = solver.getSolution(inputLines);
 
         try {

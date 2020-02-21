@@ -33,11 +33,7 @@ public class SolverImpl implements Solver {
         String[] scores = inputLines.get(1).split(" ");
         Set<Book> bookPool = new HashSet<>();
 
-        for (int c = 0; c < booksNumber; c++) {
-            bookPool.add(new Book(c, Integer.parseInt(scores[c])));
-        }
-        ArrayList<Library> libraries = new ArrayList<Library>();
-
+        ArrayList<Library> libraries = new ArrayList<>();
         for (int i = 0; i < librariesNumber; i++) {
             int row = 2 + i * 2;
             String[] libraryLine = inputLines.get(row).split(" ");
@@ -52,7 +48,7 @@ public class SolverImpl implements Solver {
                 Book book = new Book(Integer.parseInt(libraryBooks[j]), Integer.parseInt(scores[scoreIdx]));
                 booksLibrary.add(book);
             }
-            Library library = new Library(i, signupDays, booksPerDay, booksLibrary, new HashSet<>());
+            Library library = new Library(i, signupDays, booksPerDay, days, booksLibrary, bookPool);
             libraries.add(library);
         }
 
@@ -92,10 +88,18 @@ public class SolverImpl implements Solver {
 
         int totalSignUpDays = 0;
         for (int i = 0; i < librariesToProcess.size(); i++) {
-            Library library = librariesToProcess.get(i);
-            library.scanTotalBooks(numberOfDays, totalSignUpDays);
-            totalSignUpDays += library.getSignUpDays();
-            result.add(library);
+            //Library library = librariesToProcess.get(i);
+            List<Book> previousScannedBooks = i - 1 >= 0 ? librariesToProcess.get(i - 1).getScannedBooks() : List.of();
+            Library library = getNextLibrary(totalSignUpDays, previousScannedBooks, librariesToProcess.subList(i, librariesToProcess.size()));
+            int tempTotalSignUpDays = totalSignUpDays + library.getSignUpDays();
+            if (tempTotalSignUpDays > numberOfDays) {
+                break;
+            }
+            library.scanTotalBooks(totalSignUpDays);
+            if (library.getScannedBooks().size() > 0) {
+                totalSignUpDays += library.getSignUpDays();
+                result.add(library);
+            }
         }
 
         logger.info("Finished days process");
@@ -112,25 +116,23 @@ public class SolverImpl implements Solver {
         return result;
     }
 
+    private Library getNextLibrary(int totalSignUpDays, List<Book> scannedBooks, List<Library> subList) {
+        for (Library library : subList) {
+            library.updateRemainingBooks(totalSignUpDays, scannedBooks);
+        }
+        subList.sort(Comparator.comparing(Library::getSignUpDays).thenComparing(Library::getBooksScore, Comparator.reverseOrder()));
+        return subList.get(0);
+    }
+
     /**
      * This method can be just picking libraries in order of input or be smarter to optimise score picking libraries with most valueable books and less sign up time
      *
      * @return libraries in order to be processed
      */
     private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
-        List<Library> results = new ArrayList<>();
         List<Library> orederedLibraries = new ArrayList<>(libraries);
-        orederedLibraries.sort(Comparator.comparing(Library::getSignUpDays));
-
-        int totalSignUpDays = 0;
-        for (int i = 0; i < orederedLibraries.size(); i++) {
-            totalSignUpDays += orederedLibraries.get(i).getSignUpDays();
-            results.add(orederedLibraries.get(i));
-            if (totalSignUpDays > numberOfDays) {
-                break;
-            }
-        }
-        return results;
+        orederedLibraries.sort(Comparator.comparing(Library::getSignUpDays).thenComparing(Library::getBooksScore, Comparator.reverseOrder()));
+        return orederedLibraries;
     }
 
 }
