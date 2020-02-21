@@ -89,48 +89,14 @@ public class SolverImpl implements Solver {
 
         List<Library> librariesToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
         logger.info("Finished identification of libraries");
-        boolean signingUpLibrary = false;
 
-        Library libraryInSignUp = librariesToProcess.get(0);
-        Set<Library> librariesScanningBooks = new HashSet<>();
-
-        int libraryInSignUpIndex = 0;
-        for(int day = 0; day < numberOfDays; day++) {
-
-            Set<Library> librariesTotallyUsed = new HashSet<>();
-
-            for (Library libraryScanning : librariesScanningBooks){
-                libraryScanning.dayElapsed();
-                // when finished scanning remove from librariesScanningBooks
-                if (libraryScanning.getScannedBooks().size() == libraryScanning.getBooks().size()){
-                    librariesTotallyUsed.add(libraryScanning);
-                }
-            }
-            librariesScanningBooks.removeAll(librariesTotallyUsed);
-
-            if (libraryInSignUp != null){
-
-                libraryInSignUp.dayElapsed();
-            }
-
-            if (libraryInSignUp != null && !libraryInSignUp.isSigningUp()) {
-                // finished sign up process
-                // add library to libraries in scanning
-                librariesScanningBooks.add(libraryInSignUp);
-
-                if (!(libraryInSignUpIndex > librariesToProcess.size()-2)){
-                    // identify next library to sign upi
-                    libraryInSignUp = librariesToProcess.get(libraryInSignUpIndex+1);
-                    libraryInSignUpIndex++;
-                } else {
-                    libraryInSignUp = null;
-                }
-            }
-
-            if (day % 100 == 0){
-                logger.info("Days passed {} / {}", day+1, numberOfDays);
-            }
+        int totalSignUpDays = 0;
+        for (int i = 0; i < librariesToProcess.size(); i++) {
+            Library library = librariesToProcess.get(i);
+            library.scanTotalBooks(numberOfDays, totalSignUpDays);
+            totalSignUpDays += library.getSignUpDays();
         }
+
         logger.info("Finished days process");
 
         int totalScore = 0;
@@ -154,8 +120,7 @@ public class SolverImpl implements Solver {
     private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books, List<Library> libraries) {
         List<Library> results = new ArrayList<>(libraries);
         List<Library> orederedLibraries = new ArrayList<>(libraries);
-        orederedLibraries.sort(Comparator.comparing(Library::getSignUpDays)
-            .thenComparing(Comparator.comparing(Library::getMaximumScannedBooksScore).reversed()));
+        orederedLibraries.sort(Comparator.comparing(Library::getSignUpDays));
 
         int totalSignUpDays = 0;
         for (int i = 0; i < orederedLibraries.size(); i++) {
