@@ -52,34 +52,17 @@ public class SolverImpl implements Solver {
             libraries.add(library);
         }
 
-        List<Library> resultingLibraries = solve(booksNumber, librariesNumber, days, bookPool, libraries);
-        return createOutput(resultingLibraries);
+        List<Library> resultingLibraries = solve(booksNumber, librariesNumber, days, libraries);
+
+        return createOutputFromLibraries(resultingLibraries);
     }
-
-    private List<String> createOutput(List<Library> resultingLibraries) {
-        List<String> resultingRows = new ArrayList<>();
-        int totalLibraries = resultingLibraries.size();
-        resultingRows.add(String.format("%d", totalLibraries));
-
-        for (Library library : resultingLibraries) {
-            resultingRows.add(String.format("%d %d", library.getId(), library.getScannedBooks().size()));
-
-            String booksString = library.getScannedBooks().stream().map(Book::getId).map(id -> id.toString() + " ")
-                .reduce("", String::concat);
-            resultingRows.add(booksString);
-        }
-
-        return resultingRows;
-    }
-
 
     /**
      * MAIN IMPLEMENTATION OF SOLUTION
      *
-     * @return list of libraries picked. then each library will have the list of books selected
+     * @return list of libraries picked. Each library will have internally the list of books to be scanned.
      */
-    protected List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, Set<Book> books,
-        List<Library> libraries) {
+    protected List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, List<Library> libraries) {
         List<Library> result = new ArrayList<>();
 
         List<Library> librariesLeftToProcess = libraries.stream()
@@ -98,27 +81,21 @@ public class SolverImpl implements Solver {
                 break;
             }
 
-            libraryToProcess.scanTotalBooks(totalSignUpDays);
+            libraryToProcess.scanBooks(totalSignUpDays);
             List<Book> justScannedBooks = libraryToProcess.getScannedBooks();
             if (justScannedBooks.size() > 0) {
                 totalSignUpDays += libraryToProcess.getSignUpDays();
                 result.add(libraryToProcess);
+                scannedBooks.addAll(justScannedBooks);
             }
 
-            scannedBooks.addAll(justScannedBooks);
             librariesLeftToProcess.remove(libraryToProcess);
-
-            if (totalSignUpDays % 100 == 0) {
-                logger.info("Processed {} days over {} total days", totalSignUpDays, numberOfDays);
-            }
         }
 
-        int totalScore = 0;
-        for (Library library : result) {
-            if (library.getScannedBooks().size() > 0) {
-                totalScore += library.getScannedBooksScore();
-            }
-        }
+        int totalScore = result.stream()
+            .filter(library -> library.getScannedBooks().size() > 0)
+            .map(library -> library.getScannedBooksScore())
+            .reduce(0, Integer::sum);
 
         logger.info("Total score of scanned books: {}", totalScore);
         return result;
@@ -143,4 +120,20 @@ public class SolverImpl implements Solver {
         return libraryWithBestScore;
     }
 
+
+    private List<String> createOutputFromLibraries(List<Library> resultingLibraries) {
+        List<String> resultingRows = new ArrayList<>();
+        int totalLibraries = resultingLibraries.size();
+        resultingRows.add(String.format("%d", totalLibraries));
+
+        for (Library library : resultingLibraries) {
+            resultingRows.add(String.format("%d %d", library.getId(), library.getScannedBooks().size()));
+
+            String booksString = library.getScannedBooks().stream().map(Book::getId).map(id -> id.toString() + " ")
+                .reduce("", String::concat);
+            resultingRows.add(booksString);
+        }
+
+        return resultingRows;
+    }
 }

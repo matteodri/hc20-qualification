@@ -2,7 +2,6 @@ package com.codeardi.hc20qualification.solver;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -14,9 +13,11 @@ public class Library {
     private int booksPerDay;
     private int totalDays;
     private List<Book> books;
-    private Set<Book> bookPool;
+    private Set<Book> globalScannedBooks;
+    private List<Book> scannedBooks = new ArrayList<>();
 
-    public Library(int id, int signUpDays, int booksPerDay, int totalDays, List<Book> books, Set<Book> bookPool) {
+    public Library(int id, int signUpDays, int booksPerDay, int totalDays, List<Book> books,
+        Set<Book> globalScannedBooks) {
         this.id = id;
         this.signUpDays = signUpDays;
         this.booksPerDay = booksPerDay;
@@ -24,33 +25,13 @@ public class Library {
 
         ArrayList<Book> inputBooks = new ArrayList<>(books);
         inputBooks.sort(Comparator.reverseOrder());
-
-        int scanningDays = totalDays - signUpDays;
         this.books = inputBooks;
 
-        this.bookPool = bookPool;
-    }
-
-    private boolean signingUp;
-
-    private int remainingSignUpDays = signUpDays;
-    private Set<Book> booksInScanning = new HashSet<>();
-    private List<Book> scannedBooks = new ArrayList<>();
-
-    public void startSigningUp() {
-        this.signingUp = true;
+        this.globalScannedBooks = globalScannedBooks;
     }
 
     public List<Book> getBooks() {
         return books;
-    }
-
-    public void stopSigningUp() {
-        this.signingUp = false;
-    }
-
-    public boolean isSigningUp() {
-        return signingUp;
     }
 
     public int getId() {
@@ -71,31 +52,31 @@ public class Library {
             .sum();
     }
 
-    public void scanTotalBooks(int idleDays) {
+    public void scanBooks(int idleDays) {
         int scanningDays = totalDays - idleDays - signUpDays;
-        int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
+        int scannableBooks = Math.min(scanningDays * booksPerDay, books.size());
 
-        for (int i = 0; i < manageableBooks; i++) {
-            if (!bookPool.contains(books.get(i))) {
+        for (int i = 0; i < scannableBooks; i++) {
+            if (!globalScannedBooks.contains(books.get(i))) {
                 scannedBooks.add(books.get(i));
             }
         }
-        bookPool.addAll(scannedBooks);
+        globalScannedBooks.addAll(scannedBooks);
     }
 
     public int updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
         int scanningDays = totalDays - idleDays - signUpDays;
-        int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
+        int scannableBooks = Math.min(scanningDays * booksPerDay, books.size());
         int totalBooksScore = 0;
 
-        final Iterator<Book> iterator = books.iterator();
-        while (iterator.hasNext() && manageableBooks > 0) {
-            final Book next = iterator.next();
-            if (scannedBooks.contains(next)) {
-                iterator.remove();
+        final Iterator<Book> bookIterator = books.iterator();
+        while (bookIterator.hasNext() && scannableBooks > 0) {
+            final Book book = bookIterator.next();
+            if (scannedBooks.contains(book)) {
+                bookIterator.remove();
             } else {
-                totalBooksScore += next.getScore();
-                manageableBooks--;
+                totalBooksScore += book.getScore();
+                scannableBooks--;
             }
         }
         return totalBooksScore;
