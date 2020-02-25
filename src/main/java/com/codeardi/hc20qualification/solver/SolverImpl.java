@@ -1,7 +1,6 @@
 package com.codeardi.hc20qualification.solver;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -83,7 +82,6 @@ public class SolverImpl implements Solver {
         List<Library> libraries) {
         List<Library> result = new ArrayList<>();
 
-//        List<Library> librariesLeftToProcess = pickListOfLibraries(numberOfBooks, numberOfLibraries, numberOfDays, books, libraries);
         List<Library> librariesLeftToProcess = libraries.stream()
             .filter(l -> l.getSignUpDays() < numberOfDays)
             .collect(Collectors.toList());
@@ -126,29 +124,6 @@ public class SolverImpl implements Solver {
         return result;
     }
 
-    /**
-     * This method can be just picking libraries in order of input or be smarter to optimise score picking libraries
-     * with most valueable books and less sign up time
-     *
-     * @return libraries in order to be processed
-     */
-    private List<Library> pickListOfLibraries(int numberOfBooks, int numberOfLibraries, int numberOfDays,
-        Set<Book> books, List<Library> libraries) {
-        List<Library> results = new ArrayList<>();
-        List<Library> orederedLibraries = new ArrayList<>(libraries);
-        orederedLibraries.sort(Comparator.comparing(Library::getSignUpDays));
-
-        int totalSignUpDays = 0;
-        for (Library library : orederedLibraries) {
-            results.add(library);
-            totalSignUpDays += library.getSignUpDays();
-            if (totalSignUpDays > numberOfDays) {
-                break;
-            }
-        }
-        return results;
-    }
-
     private Library getNextLibrary(int totalSignUpDays, Set<Book> scannedBooks, List<Library> libraries) {
         float bestLibraryScore = -1;
         Library libraryWithBestScore = null;
@@ -159,7 +134,7 @@ public class SolverImpl implements Solver {
             // CALCULATE LIBRARY SCORE
             float libraryScore = (float) bookScore / library.getSignUpDays();
 
-            if (libraryScore > bestLibraryScore){
+            if (libraryScore > bestLibraryScore) {
                 bestLibraryScore = libraryScore;
                 libraryWithBestScore = library;
             }

@@ -13,7 +13,6 @@ public class Library {
     private int signUpDays;
     private int booksPerDay;
     private int totalDays;
-    //private int totalBooksScore;
     private List<Book> books;
     private Set<Book> bookPool;
 
@@ -27,9 +26,7 @@ public class Library {
         inputBooks.sort(Comparator.reverseOrder());
 
         int scanningDays = totalDays - signUpDays;
-        // int manageableBooks = Math.min(Math.max(scanningDays * booksPerDay, Integer.MAX_VALUE), inputBooks.size());
-        this.books = inputBooks;  //.subList(0, manageableBooks);
-        //this.totalBooksScore = this.books.stream().mapToInt(Book::getScore).sum();
+        this.books = inputBooks;
 
         this.bookPool = bookPool;
     }
@@ -74,23 +71,6 @@ public class Library {
             .sum();
     }
 
-   /* public int getBooksScore() {
-        return totalBooksScore;
-    }*/
-
-    public int getMaxScannableScoreRemaining(int totalDays, int idleDays) {
-        int scanningDays = totalDays - idleDays - signUpDays;
-        int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
-
-        int score = 0;
-        for (int i = 0; i < manageableBooks; i++) {
-            if (!bookPool.contains(books.get(i))) {
-                score += books.get(i).getScore();
-            }
-        }
-        return score;
-    }
-
     public void scanTotalBooks(int idleDays) {
         int scanningDays = totalDays - idleDays - signUpDays;
         int manageableBooks = Math.min(scanningDays * booksPerDay, books.size());
@@ -101,28 +81,6 @@ public class Library {
             }
         }
         bookPool.addAll(scannedBooks);
-    }
-
-    public void dayElapsed() {
-        if (signingUp && remainingSignUpDays > 0) {
-            remainingSignUpDays--;
-        } else if (remainingSignUpDays <= 0) {
-            scannedBooks.addAll(booksInScanning);
-            booksInScanning.clear();
-            for (int i = booksInScanning.size(); i < booksPerDay; i++) {
-                scanBook();
-            }
-        }
-
-    }
-
-    private void scanBook() {
-        for (Book book : books) {
-            if (bookPool.contains(book) && !booksInScanning.contains(book)) {
-                bookPool.remove(book);
-                booksInScanning.add(book);
-            }
-        }
     }
 
     public int updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
