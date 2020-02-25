@@ -1,5 +1,6 @@
 package com.codeardi.hc20qualification.solver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
@@ -7,20 +8,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class for {@link SolverImpl}. These tests don't validate the output precisely, they are used just for debugging
- * purposes to have a quick way to invoke the algorithm on a simple input.
+ * Test class for {@link SolverImpl}. These tests don't validate the output comprehansivelu, they are used just for
+ * excluding obvious issues or for debugging.
  */
 class SolverImplTest {
 
     private SolverImpl unit;
 
     @Test
-    @DisplayName("Output list not null")
+    @DisplayName("Test getSolution")
     void getSolution() {
         unit = new SolverImpl();
         List<String> input = new ArrayList<>();
@@ -35,10 +35,11 @@ class SolverImplTest {
         List<String> output = unit.getSolution(input);
 
         assertNotNull(output);
+        assertEquals(5, output.size());
     }
 
     @Test
-    @DisplayName("Solve with library ordering same as input")
+    @DisplayName("Test solve")
     void solve() {
         unit = new SolverImpl();
         List<String> input = new ArrayList<>();
@@ -46,8 +47,7 @@ class SolverImplTest {
         int numberOfBooks = 6;
         int numberOfLibraries = 2;
         int numberOfDays = 7;
-        Set<Book> bookPool = new HashSet<>(Set.of(new Book(0, 1), new Book(1, 2),
-            new Book(2, 3), new Book(3, 6), new Book(4, 5), new Book(5, 4)));
+        Set<Book> bookPool = new HashSet<>();
 
         List<Book> library0Books = new ArrayList<>(List.of(new Book(0, 1), new Book(1, 2),
             new Book(2, 3), new Book(3, 6), new Book(4, 5)));
@@ -55,15 +55,14 @@ class SolverImplTest {
 
         List<Book> library1Books = new ArrayList<>(
             List.of(new Book(3, 6), new Book(2, 3), new Book(5, 4), new Book(0, 1)));
-        Library library1 = new Library(1, 3, 2, numberOfDays, library0Books, bookPool);
+        Library library1 = new Library(1, 3, 2, numberOfDays, library1Books, bookPool);
 
         List<Library> libraries = List.of(library0, library1);
 
-        // protected List<Library> solve(int numberOfBooks, int numberOfLibraries, int numberOfDays, List<Book> bookPool, List<Library> libraries){
-        List<Library> resultLibraries = unit.solve(numberOfBooks, numberOfLibraries, numberOfDays, bookPool, libraries);
+        List<Library> resultLibraries = unit.solve(numberOfBooks, numberOfLibraries, numberOfDays, libraries);
 
         assertNotNull(resultLibraries);
-
+        assertEquals(2, resultLibraries.size());
     }
 
 
