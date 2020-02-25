@@ -12,7 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test class for {@link SolverImpl}.
+ * Test class for {@link SolverImpl}. These tests don't validate the output precisely, they are used just for debugging
+ * purposes to have a quick way to invoke the algorithm on a simple input.
  */
 class SolverImplTest {
 
@@ -50,10 +51,11 @@ class SolverImplTest {
 
         List<Book> library0Books = new ArrayList<>(List.of(new Book(0, 1), new Book(1, 2),
             new Book(2, 3), new Book(3, 6), new Book(4, 5)));
-        Library library0 = new Library(0, 2, 2, library0Books, bookPool);
+        Library library0 = new Library(0, 2, 2, numberOfDays, library0Books, bookPool);
 
-        List<Book> library1Books = new ArrayList<>(List.of(new Book(3, 6), new Book(2, 3), new Book(5, 4), new Book(0, 1)));
-        Library library1 = new Library(0, 2, 2, library0Books, bookPool);
+        List<Book> library1Books = new ArrayList<>(
+            List.of(new Book(3, 6), new Book(2, 3), new Book(5, 4), new Book(0, 1)));
+        Library library1 = new Library(1, 3, 2, numberOfDays, library0Books, bookPool);
 
         List<Library> libraries = List.of(library0, library1);
 
@@ -63,7 +65,6 @@ class SolverImplTest {
         assertNotNull(resultLibraries);
 
     }
-
 
 
 }
