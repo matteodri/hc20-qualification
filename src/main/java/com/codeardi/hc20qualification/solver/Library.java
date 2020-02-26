@@ -54,7 +54,7 @@ public class Library {
 
     public void scanBooks(int idleDays) {
         int scanningDays = totalDays - idleDays - signUpDays;
-        int scannableBooks = Math.min(scanningDays * booksPerDay, books.size());
+        int scannableBooks = Math.min(Math.max(scanningDays * booksPerDay, Integer.MAX_VALUE), books.size());
 
         for (int i = 0; i < scannableBooks; i++) {
             if (!globalScannedBooks.contains(books.get(i))) {
@@ -66,7 +66,7 @@ public class Library {
 
     public int updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
         int scanningDays = totalDays - idleDays - signUpDays;
-        int scannableBooks = Math.min(scanningDays * booksPerDay, books.size());
+        int scannableBooks = Math.min(Math.max(scanningDays * booksPerDay, Integer.MAX_VALUE), books.size());
         int totalBooksScore = 0;
 
         final Iterator<Book> bookIterator = books.iterator();

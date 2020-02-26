@@ -76,6 +76,10 @@ public class SolverImpl implements Solver {
 
             Library libraryToProcess = getNextLibrary(totalSignUpDays, scannedBooks, librariesLeftToProcess);
 
+            if (libraryToProcess == null){
+                break;
+            }
+
             int tempTotalSignUpDays = totalSignUpDays + libraryToProcess.getSignUpDays();
             if (tempTotalSignUpDays > numberOfDays) {
                 break;
