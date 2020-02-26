@@ -106,16 +106,15 @@ public class SolverImpl implements Solver {
     }
 
     private Library getNextLibrary(int totalSignUpDays, Set<Book> scannedBooks, List<Library> libraries) {
-        float bestLibraryScore = -1;
+        double bestLibraryScore = Double.MAX_VALUE;
         Library libraryWithBestScore = null;
 
         for (Library library : libraries) {
-            int bookScore = library.updateRemainingBooksAndReturnScore(totalSignUpDays, scannedBooks);
-
+            long bookScore = library.updateRemainingBooksAndReturnScore(totalSignUpDays, scannedBooks);
             // CALCULATE LIBRARY SCORE
-            float libraryScore = (float) bookScore / library.getSignUpDays();
+            double libraryScore = (double) bookScore / library.getSignUpDays();
 
-            if (libraryScore > bestLibraryScore) {
+            if (libraryScore < bestLibraryScore) {
                 bestLibraryScore = libraryScore;
                 libraryWithBestScore = library;
             }

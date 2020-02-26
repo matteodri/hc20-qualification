@@ -6,7 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Library {
+    protected static final Logger logger = LogManager.getLogger(Library.class);
 
     private int id;
     private int signUpDays;
@@ -53,8 +57,8 @@ public class Library {
     }
 
     public void scanBooks(int idleDays) {
-        int scanningDays = totalDays - idleDays - signUpDays;
-        int scannableBooks = Math.min(Math.max(scanningDays * booksPerDay, Integer.MAX_VALUE), books.size());
+        long scanningDays = Math.max(0, totalDays - idleDays - signUpDays);
+        long scannableBooks = Math.min(scanningDays * booksPerDay, (long) books.size());
 
         for (int i = 0; i < scannableBooks; i++) {
             if (!globalScannedBooks.contains(books.get(i))) {
@@ -64,9 +68,10 @@ public class Library {
         globalScannedBooks.addAll(scannedBooks);
     }
 
-    public int updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
-        int scanningDays = totalDays - idleDays - signUpDays;
-        int scannableBooks = Math.min(Math.max(scanningDays * booksPerDay, Integer.MAX_VALUE), books.size());
+    public long updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
+        long scanningDays = Math.max(0, totalDays - idleDays - signUpDays);
+        long scannableBooks = Math.min(scanningDays * booksPerDay, (long) books.size());
+
         int totalBooksScore = 0;
 
         final Iterator<Book> bookIterator = books.iterator();
