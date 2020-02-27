@@ -43,11 +43,11 @@ public class HC20QualificationApplication {
 
         } catch (Exception e) {
             logger.error("Could not read file '{}'. Verify that file exists and is readable.", inputFilePath);
-            logger.debug("could not read file", e);
+            logger.debug("Could not read file", e);
             return;
         }
 
-        Solver solver =  new SolverImpl();
+        Solver solver = new SolverImpl();
 
         List<String> outputLines = solver.getSolution(inputLines);
 
@@ -57,8 +57,9 @@ public class HC20QualificationApplication {
             logger.info("Written {} lines to '{}'", outputLines.size(), outputFilePath);
 
         } catch (Exception e) {
-            logger.error("Could not write to file '{}'. Verify that file doesn't already exists or is writable.", outputFilePath);
-            logger.debug("could not write to file", e);
+            logger.error("Could not write to file '{}'. Verify that file doesn't already exists or is writable.",
+                outputFilePath);
+            logger.debug("Could not write to file", e);
             return;
         }
     }

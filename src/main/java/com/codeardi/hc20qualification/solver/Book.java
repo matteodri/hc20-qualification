@@ -1,8 +1,5 @@
 package com.codeardi.hc20qualification.solver;
 
-/**
- *
- */
 public class Book implements Comparable<Book> {
 
     private int id;

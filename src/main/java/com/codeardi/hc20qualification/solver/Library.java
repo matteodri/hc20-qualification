@@ -6,11 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class Library {
-    protected static final Logger logger = LogManager.getLogger(Library.class);
 
     private int id;
     private int signUpDays;
@@ -57,8 +53,7 @@ public class Library {
     }
 
     public void scanBooks(int idleDays) {
-        long scanningDays = Math.max(0, totalDays - idleDays - signUpDays);
-        long scannableBooks = Math.min(scanningDays * booksPerDay, (long) books.size());
+        long scannableBooks = getScannableBooks(idleDays);
 
         for (int i = 0; i < scannableBooks; i++) {
             if (!globalScannedBooks.contains(books.get(i))) {
@@ -69,8 +64,7 @@ public class Library {
     }
 
     public long updateRemainingBooksAndReturnScore(int idleDays, Set<Book> scannedBooks) {
-        long scanningDays = Math.max(0, totalDays - idleDays - signUpDays);
-        long scannableBooks = Math.min(scanningDays * booksPerDay, (long) books.size());
+        long scannableBooks = getScannableBooks(idleDays);
 
         int totalBooksScore = 0;
 
@@ -85,5 +79,10 @@ public class Library {
             }
         }
         return totalBooksScore;
+    }
+
+    private long getScannableBooks(int idleDays) {
+        long scanningDays = Math.max(0, totalDays - idleDays - signUpDays);
+        return Math.min(scanningDays * booksPerDay, (long) books.size());
     }
 }

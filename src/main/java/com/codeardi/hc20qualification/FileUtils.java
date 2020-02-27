@@ -19,6 +19,7 @@ public class FileUtils {
     public static List<String> readFromFile(String filePath) throws IOException {
         List<String> lines = new ArrayList<>();
         Path path = Paths.get(filePath);
+
         if (!Files.exists(path)) {
             throw new IllegalArgumentException("File doesn't exist or is not accessible.");
         }
@@ -27,16 +28,17 @@ public class FileUtils {
             stream.forEach(s -> lines.add(s));
         }
 
-
         return lines;
     }
 
     public static void writeToFile(List<String> lines, String filePath) throws IOException {
         FileWriter fileWriter = new FileWriter(filePath);
         PrintWriter printWriter = new PrintWriter(fileWriter);
+
         for (String line : lines) {
             printWriter.println(line);
         }
+
         printWriter.close();
     }
 
