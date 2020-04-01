@@ -4,7 +4,7 @@
 ![Java CI](https://github.com/matteodri/hc20-qualification/workflows/Java%20CI/badge.svg)
 
 ## Overview
-Application that implements our solution to the [Google Hash Code 2020](https://codingcompetitions.withgoogle.com/hashcode/archive) qualification round.
+This is our solution to the [Google Hash Code 2020](https://codingcompetitions.withgoogle.com/hashcode/archive) qualification round.
 
 This is a refined solution developed from the one submitted for the qualification round. 
 Code has been refactored and made more readable while also improving the algorithm.
