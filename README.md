@@ -1,4 +1,4 @@
-# Google Hash Code 2020 Qualification
+#     Google Hash Code 2020 Qualification
 
 [![jdk11](https://img.shields.io/badge/java-11-blue.svg)](http://jdk.java.net/11)
 ![Java CI](https://github.com/matteodri/hc20-qualification/workflows/Java%20CI/badge.svg)
